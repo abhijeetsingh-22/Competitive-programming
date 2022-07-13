@@ -22,9 +22,8 @@ public:
     {
         if (head == NULL or head->next == NULL)
             return head;
-        ListNode *odd_head = head;
         ListNode *even_head = head->next;
-        ListNode *odd_ptr = odd_head;
+        ListNode *odd_ptr = head;
         ListNode *even_ptr = even_head;
         while (even_ptr != NULL and odd_ptr != NULL)
         {
