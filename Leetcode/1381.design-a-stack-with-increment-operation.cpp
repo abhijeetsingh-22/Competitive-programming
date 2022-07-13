@@ -54,7 +54,7 @@ public:
         //     arr[i] += val;
         // }
 
-        // TC-> O(1);
+        // TC-> O(1) with lazy increment;
         int i = min(k, top + 1) - 1;
         if (i < 0)
             return;
