@@ -18,11 +18,10 @@
  */
 class Solution
 {
-public:
+private:
     // Preorder traversal using morris method with O(1) spcace complexity
-    vector<int> preorderTraversal(TreeNode *root)
+    static void preorder_morris(TreeNode *root, vector<int> &ans)
     {
-        vector<int> ans;
         TreeNode *cur = root;
 
         while (cur != NULL)
@@ -52,6 +51,42 @@ public:
                 cur = cur->right;
             }
         }
+    }
+    static void preorder_rec(TreeNode *root, vector<int> &ans)
+    {
+        if (root == NULL)
+            return;
+        ans.push_back(root->val);
+        preorder_rec(root->left, ans);
+        preorder_rec(root->right, ans);
+    }
+
+    static void preorder_iter(TreeNode *root, vector<int> &ans)
+    {
+        if (root == NULL)
+            return;
+        stack<TreeNode *> stk;
+        stk.push(root);
+        while (!stk.empty())
+        {
+            auto top = stk.top();
+            stk.pop();
+            ans.push_back(top->val);
+            if (top->right)
+                stk.push(top->right);
+            if (top->left)
+                stk.push(top->left);
+        }
+    }
+
+public:
+    vector<int> preorderTraversal(TreeNode *root)
+    {
+        vector<int> ans;
+        // preorder_morris(root, ans);
+        // preorder_rec(root, ans);
+        preorder_iter(root, ans);
+
         return ans;
     }
 };
