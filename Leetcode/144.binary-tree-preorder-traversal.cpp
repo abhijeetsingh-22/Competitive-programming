@@ -23,7 +23,6 @@ private:
     static void preorder_morris(TreeNode *root, vector<int> &ans)
     {
         TreeNode *cur = root;
-
         while (cur != NULL)
         {
             if (cur->left)
@@ -33,12 +32,14 @@ private:
                 {
                     prev = prev->right;
                 }
+                // cur is not yet printed
                 if (prev->right == NULL)
                 {
-                    ans.push_back(cur->val);
                     prev->right = cur;
+                    ans.push_back(cur->val);
                     cur = cur->left;
                 }
+                // cur is already printed and came for the 2nd time
                 if (prev->right == cur)
                 {
                     prev->right = NULL;
@@ -83,9 +84,9 @@ public:
     vector<int> preorderTraversal(TreeNode *root)
     {
         vector<int> ans;
-        // preorder_morris(root, ans);
+        preorder_morris(root, ans);
         // preorder_rec(root, ans);
-        preorder_iter(root, ans);
+        // preorder_iter(root, ans);
 
         return ans;
     }
