@@ -130,38 +130,71 @@ Diameter can lie in left subtree/right subtree/or pass through node
 We need to find all three and take the max of this
 Time complexity is O(n^2) as for every node the height is calculated
 */
-int diameter(node* root){
-    if(root==NULL)return 0;
-    
-    //left subtree diameter
-    int l=diameter(root->left);
-    //right subtree diameter
-    int r=diameter(root->right);
-    int h1=height(root->left);
-    int h2=height(root->right);
+int diameter(node *root)
+{
+    if (root == NULL)
+        return 0;
+
+    // left subtree diameter
+    int l = diameter(root->left);
+    // right subtree diameter
+    int r = diameter(root->right);
+    int h1 = height(root->left);
+    int h2 = height(root->right);
     // h1+h2 diameter passing through root node of currerent tree
-    return max(h1+h2,max(l,r));
+    return max(h1 + h2, max(l, r));
 }
-class Pair{
-    public:
+class Pair
+{
+public:
     int height;
     int diameter;
 };
-Pair diameter_optimezed(node*root){
+Pair diameter_optimezed(node *root)
+{
     Pair p;
-    if(root==NULL){
-        p.diameter=0;
-        p.height=0;
+    if (root == NULL)
+    {
+        p.diameter = 0;
+        p.height = 0;
         return p;
     }
-    Pair left=diameter_optimezed(root->left);
-    Pair right=diameter_optimezed(root->right);
+    Pair left = diameter_optimezed(root->left);
+    Pair right = diameter_optimezed(root->right);
 
-    p.height=max(left.height,right.height)+1;
+    p.height = max(left.height, right.height) + 1;
 
-    p.diameter=max(left.height+right.height,max(left.diameter,right.diameter));
+    p.diameter = max(left.height + right.height, max(left.diameter, right.diameter));
     return p;
+}
 
+/*
+Height balaced binary tree is in which
+    |h1-h2|<=1       for all the nodes in the tree;
+where h1 and h2 are the heights of left and right subtree
+*/
+/*
+If we use preorder traversal calculate height for each node then the TC-> O(n^2) as height is O(n)
+but we can use post order traversal and build height from bottom up
+and the time complexity of this will be O(n);
+*/
+// Returns the values isBalanced and the height
+pair<bool, int> is_height_balanced(node *root)
+{
+    // base case
+    if (root == NULL)
+        return make_pair(true, 0);
+    if (root->left == NULL and root->right == NULL)
+    {
+        return make_pair(true, 1);
+    }
+    // Recursive case
+    auto left = is_height_balanced(root->left);
+    auto right = is_height_balanced(root->right);
+    int height = max(left.second, right.second) + 1;
+    bool is_balanced = (left.first and right.first) and (abs(left.second - right.second) <= 1);
+
+    return make_pair(is_balanced, height);
 }
 
 int main()
@@ -171,10 +204,18 @@ int main()
     root = build_tree();
     print_levelorder(root);
     print_levelorder_fast(root);
-    cout<<endl;
-    cout<<"diameter  "<<diameter(root)<<endl;
-    Pair p=diameter_optimezed(root);
-    cout<<"from optimized diameter function diameter "<<p.diameter<<" height "<<p.height;
+    cout << endl;
+    cout << "diameter  " << diameter(root) << endl;
+
+    auto p = is_height_balanced(root);
+    if (p.first)
+        cout << "The tree is balanced " << p.second << endl;
+    else
+        cout << "The tree is not balanced " << p.second << endl;
+    // Pair p = diameter_optimezed(root);
+
+    // cout << "from optimized diameter function diameter " << p.diameter << " height " << p.height;
+
     // print_level(root, 4);
 
     // cout << "preorder" << endl;
