@@ -40,7 +40,7 @@ private:
         while (!stk.empty() or cur != NULL)
         {
             if (cur)
-            { // if cur node have left subtree push it into the stack
+            { // if cur node have left subtree push it into the stack and goto left subtree
                 stk.push(cur);
                 cur = cur->left;
             }
@@ -69,6 +69,42 @@ private:
             }
         }
     }
+    static void postorder_morris(TreeNode *root, vector<int> &ans)
+    {
+        if (root == NULL)
+            return;
+        TreeNode *cur = root;
+        while (cur != NULL)
+        {
+
+            if (cur->right)
+            {
+                TreeNode *prev = cur->right;
+                while (prev->left != NULL and prev->left != cur)
+                {
+                    prev = prev->left;
+                }
+                // the cur node is visited for the first time
+                if (prev->left == NULL)
+                {
+                    prev->left = cur;
+                    ans.push_back(cur->val);
+                    cur = cur->right;
+                }
+                if (prev->left == cur)
+                {
+                    prev->left = NULL;
+                    cur = cur->left;
+                }
+            }
+            else
+            {
+                ans.push_back(cur->val);
+                cur = cur->left;
+            }
+        }
+        reverse(ans.begin(), ans.end());
+    }
 
 public:
     vector<int>
@@ -76,7 +112,9 @@ public:
     {
         vector<int> ans;
         // post_order_rec(root, ans);
-        post_order_iter(root, ans);
+        // post_order_iter(root, ans);
+
+        postorder_morris(root, ans);
         return ans;
     }
 };
