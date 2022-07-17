@@ -51,12 +51,43 @@ private:
             ans.push_back(row);
         }
     }
+    static void levelorder_iter(TreeNode *root, vector<vector<int>> &ans)
+    {
+        if (root == NULL)
+            return;
+        queue<TreeNode *> q;
+        q.push(root);
+        q.push(NULL);
+        vector<int> row;
+        while (!q.empty())
+        {
+            TreeNode *f = q.front();
+            if (f)
+            {
+                row.push_back(f->val);
+                if (f->left)
+                    q.push(f->left);
+                if (f->right)
+                    q.push(f->right);
+                q.pop();
+            }
+            else if (f == NULL)
+            {
+                ans.push_back(row);
+                row.clear();
+                q.pop();
+                if (!q.empty())
+                    q.push(NULL);
+            }
+        }
+    }
 
 public:
     vector<vector<int>> levelOrder(TreeNode *root)
     {
         vector<vector<int>> ans;
-        levelorder_rec(root, ans);
+        // levelorder_rec(root, ans);
+        levelorder_iter(root, ans);
         return ans;
     }
 };
