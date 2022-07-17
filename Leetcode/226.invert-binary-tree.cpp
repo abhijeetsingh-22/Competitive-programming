@@ -79,12 +79,35 @@ private:
             }
         }
     }
+    static void invert_iter2(TreeNode *root)
+    {
+        if (root == NULL)
+            return;
+
+        stack<TreeNode *> stk;
+        stk.push(root);
+        while (!stk.empty())
+        {
+            TreeNode *temp, *cur = stk.top();
+            stk.pop();
+            if (cur->right)
+                stk.push(cur->right);
+            if (cur->left)
+                stk.push(cur->left);
+
+            // swapping left and right nodes;
+            temp = cur->left;
+            cur->left = cur->right;
+            cur->right = temp;
+        }
+    }
 
 public:
     TreeNode *invertTree(TreeNode *root)
     {
         // invert_rec(root);
-        invert_iter(root);
+        // invert_iter(root);
+        invert_iter2(root);
         return root;
     }
 };
