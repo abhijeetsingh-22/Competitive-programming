@@ -28,13 +28,43 @@ private:
         // recursive case
         return p->val == q->val and mirror_image(p->left, q->right) and mirror_image(p->right, q->left);
     }
+    bool mirror_image_iter(TreeNode *root)
+    {
+        stack<TreeNode *> stk;
+        stk.push(root->left);
+        stk.push(root->right);
+        while (!stk.empty())
+        {
+            TreeNode *p = stk.top();
+            stk.pop();
+            TreeNode *q = stk.top();
+            stk.pop();
+            if (p == NULL or q == NULL)
+            {
+                if (p != q)
+                    return false;
+            }
+            else
+            {
+                if (p->val != q->val)
+                    return false;
+
+                stk.push(p->left);
+                stk.push(q->right);
+                stk.push(p->right);
+                stk.push(q->left);
+            }
+        }
+        return true;
+    }
 
 public:
     bool isSymmetric(TreeNode *root)
     {
         if (root == NULL)
             return true;
-        return mirror_image(root->left, root->right);
+        // return mirror_image(root->left, root->right);
+        return mirror_image_iter(root);
     }
 };
 // @lc code=end
