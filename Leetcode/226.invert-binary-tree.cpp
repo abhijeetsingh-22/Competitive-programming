@@ -79,6 +79,9 @@ private:
             }
         }
     }
+    // queue BFS will be very similar to this just take front pop it
+    // swap left and right and push
+    // its childern into the back
     static void invert_iter2(TreeNode *root)
     {
         if (root == NULL)
