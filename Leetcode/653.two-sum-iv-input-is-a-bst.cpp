@@ -19,6 +19,8 @@
 class BST_iterator
 {
 private:
+    // SC->O(log(n)) for average case but for skewed tree it will be O(n)
+    // TC-> O(n)
     stack<TreeNode *> stk;
     bool forward;
 
@@ -27,6 +29,8 @@ public:
     {
         this->forward = forward;
         TreeNode *cur = root;
+        // go till the left most leaf node for fwd iter
+        // and right most tree node for reverse iter
         while (cur != NULL)
         {
             if (cur)
@@ -45,6 +49,7 @@ public:
         int next_value = stk.top()->val;
         TreeNode *cur = stk.top();
         stk.pop();
+        // goto next value based on the direction of iterator
         cur = forward ? cur->right : cur->left;
         while (cur)
         {
