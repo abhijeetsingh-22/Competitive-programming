@@ -25,16 +25,33 @@ private:
             return NULL;
         if (root->val == val)
             return root;
-        else if (val <= root->val)
+        else if (val < root->val)
             return find_DFS(root->left, val);
         else
             return find_DFS(root->right, val);
+    }
+    static TreeNode *find_iter(TreeNode *root, int val)
+    {
+        if (root == NULL)
+            return NULL;
+        TreeNode *cur = root;
+        while (cur != NULL)
+        {
+            if (val == cur->val)
+                return cur;
+            if (val < cur->val)
+                cur = cur->left;
+            else if (val > cur->val)
+                cur = cur->right;
+        }
+        return cur;
     }
 
 public:
     TreeNode *searchBST(TreeNode *root, int val)
     {
-        return find_DFS(root, val);
+        // return find_DFS(root, val);
+        return find_iter(root, val);
     }
 };
 // @lc code=end
