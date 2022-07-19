@@ -19,7 +19,23 @@
 class Solution
 {
 private:
-      static int kth_smallest_inorder_morris(TreeNode *root, int k)
+    // return  kth,count
+    int kth_smallest(TreeNode *root, int &k)
+    {
+        if (root == NULL)
+        {
+            return -1;
+        }
+        int l = kth_smallest(root->left, k);
+        k--;
+        if (k == 0)
+        {
+            return root->val;
+        }
+        int r = kth_smallest(root->right, k);
+        return max(l, r);
+    }
+    static int kth_smallest_inorder_morris(TreeNode *root, int k)
     {
         TreeNode *cur = root;
         int count = 0;
@@ -65,8 +81,8 @@ private:
 public:
     int kthSmallest(TreeNode *root, int k)
     {
-        // return kth_smallest(root, k);
-        return kth_smallest_inorder_morris(root, k);
+        return kth_smallest(root, k);
+        // return kth_smallest_inorder_morris(root, k);
     }
 };
 // @lc code=end
