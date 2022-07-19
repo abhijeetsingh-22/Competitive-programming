@@ -33,13 +33,37 @@ private:
         if (root->right)
             dfs_path(root->right, p, path);
     }
+    static vector<string> dfs_rec(TreeNode *root)
+    {
+        vector<string> ans;
+
+        stack<pair<TreeNode *, string>> stk;
+        stk.push(make_pair(root, to_string(root->val)));
+        while (!stk.empty())
+        {
+            auto cur = stk.top();
+            stk.pop();
+            if (cur.first->left == NULL and cur.first->right == NULL)
+                ans.push_back(cur.second);
+            if (cur.first->right)
+            {
+                stk.push(make_pair(cur.first->right, cur.second + "->" + to_string(cur.first->right->val)));
+            }
+            if (cur.first->left)
+            {
+                stk.push(make_pair(cur.first->left, cur.second + "->" + to_string(cur.first->left->val)));
+            }
+        }
+        return ans;
+    }
 
 public:
     vector<string> binaryTreePaths(TreeNode *root)
     {
-        vector<string> ans;
-        dfs_path(root, "", ans);
-        return ans;
+        // vector<string> ans;
+        // dfs_path(root, "", ans);
+        // return ans;
+        return dfs_rec(root);
     }
 };
 // @lc code=end
