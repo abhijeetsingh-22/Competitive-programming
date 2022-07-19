@@ -46,15 +46,90 @@ private:
         while (idx2 < s2)
             ans.push_back(v2[idx2++]);
     }
+    static vector<int> dfs_iter(TreeNode *root1, TreeNode *root2)
+    {
+
+        stack<TreeNode *> stk1, stk2;
+        TreeNode *ptr1 = root1, *ptr2 = root2;
+        vector<int> ans;
+
+        while (ptr1)
+        {
+            stk1.push(ptr1);
+            ptr1 = ptr1->left;
+        }
+        while (ptr2)
+        {
+            stk2.push(ptr2);
+            ptr2 = ptr2->left;
+        }
+        while (!stk1.empty() and !stk2.empty())
+        {
+            ptr1 = stk1.top();
+            ptr2 = stk2.top();
+            if (ptr1->val < ptr2->val)
+            {
+                stk1.pop();
+                ans.push_back(ptr1->val);
+
+                ptr1 = ptr1->right;
+                while (ptr1)
+                {
+                    stk1.push(ptr1);
+                    ptr1 = ptr1->left;
+                };
+            }
+            else
+            {
+                stk2.pop();
+                ans.push_back(ptr2->val);
+                ptr2 = ptr2->right;
+                // stk2.push(ptr2);
+                while (ptr2)
+                {
+                    stk2.push(ptr2);
+                    ptr2 = ptr2->left;
+                };
+            }
+        }
+        while (!stk1.empty())
+        {
+            ptr1 = stk1.top();
+
+            stk1.pop();
+            ans.push_back(ptr1->val);
+            ptr1 = ptr1->right;
+            while (ptr1)
+            {
+                stk1.push(ptr1);
+                ptr1 = ptr1->left;
+            }
+        }
+        while (!stk2.empty())
+        {
+            ptr2 = stk2.top();
+
+            stk2.pop();
+            ans.push_back(ptr2->val);
+            ptr2 = ptr2->right;
+            while (ptr2)
+            {
+                stk2.push(ptr2);
+                ptr2 = ptr2->left;
+            }
+        }
+        return ans;
+    }
 
 public:
     vector<int> getAllElements(TreeNode *root1, TreeNode *root2)
     {
-        vector<int> v1, v2, ans;
-        dfs(root1, v1);
-        dfs(root2, v2);
-        merge(v1, v2, ans);
-        return ans;
+        // vector<int> v1, v2, ans;
+        // dfs(root1, v1);
+        // dfs(root2, v2);
+        // merge(v1, v2, ans);
+        // return ans;
+        return dfs_iter(root1, root2);
     }
 };
 // @lc code=end
