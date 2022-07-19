@@ -82,13 +82,58 @@ private:
         prev = root->val;
         inorder_rec(root->right, prev);
     }
+    int inorder_morris(TreeNode *root)
+    {
+        int min_dif = INT_MAX;
+        int prev = -1;
+
+        TreeNode *cur = root;
+        while (cur != NULL)
+        {
+
+            if (cur->left)
+            {
+                TreeNode *next = cur->left;
+                while (next->right != NULL and next->right != cur)
+                    next = next->right;
+
+                if (next->right == NULL)
+                {
+                    next->right = cur;
+                    cur = cur->left;
+                }
+                if (next->right == cur)
+                {
+                    next->right = NULL;
+                    if (prev > -1)
+                    {
+                        min_dif = min(min_dif, abs(cur->val - prev));
+                    }
+                    prev = cur->val;
+                    cur = cur->right;
+                }
+            }
+            else
+            {
+                if (prev > -1)
+                {
+
+                    min_dif = min(min_dif, abs(cur->val - prev));
+                }
+                prev = cur->val;
+                cur = cur->right;
+            }
+        }
+        return min_dif;
+    }
 
 public:
     int getMinimumDifference(TreeNode *root)
     {
-        int prev = -1;
-        inorder_rec(root, prev);
-        return minimum;
+        return inorder_morris(root);
+        // int prev = -1;
+        // inorder_rec(root, prev);
+        // return minimum;
         // return get_min_dif(root).min_dif;
     }
 };
