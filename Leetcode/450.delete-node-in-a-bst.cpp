@@ -32,9 +32,14 @@ private:
                 while (temp->left != NULL)
                     temp = temp->left;
 
-                root->val = temp->val;
-                root->right = dfs_delete(root->right, temp->val);
-                return root;
+                // changing links instead of swapping values
+                temp->left = root->left;
+                TreeNode *right_root = root->right;
+                delete root;
+                return right_root;
+                // root->val = temp->val;
+                // root->right = dfs_delete(root->right, temp->val);
+                // return root;
             }
             // case 1 leaf node
             if (root->left == NULL and root->right == NULL)
@@ -59,7 +64,7 @@ private:
                     delete root;
                     return temp;
                 }
-                        }
+            }
         }
         else if (root->val < key)
         {
