@@ -26,11 +26,11 @@ private:
         int val = root->val;
         if (val < low)
         {
-            return range_sum_rec(root->right, low, high);
+            return range_sum_rec(root->right, max(low, val), high);
         }
         else if (val > high)
         {
-            return range_sum_rec(root->left, low, high);
+            return range_sum_rec(root->left, low, min(val, high));
         }
         return range_sum_rec(root->left, low, high) + val + range_sum_rec(root->right, low, high);
     }
