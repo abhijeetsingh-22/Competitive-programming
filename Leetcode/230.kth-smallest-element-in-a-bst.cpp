@@ -26,6 +26,8 @@ private:
         {
             return -1;
         }
+        if (k <= 0)
+            return -1;
         int l = kth_smallest(root->left, k);
         k--;
         if (k == 0)
