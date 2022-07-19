@@ -53,6 +53,7 @@ private:
         TreeNode *ptr1 = root1, *ptr2 = root2;
         vector<int> ans;
 
+        // go till left most node of the tree
         while (ptr1)
         {
             stk1.push(ptr1);
@@ -67,12 +68,14 @@ private:
         {
             ptr1 = stk1.top();
             ptr2 = stk2.top();
+            // based on the value of the top node on stack push it into ans
             if (ptr1->val < ptr2->val)
             {
                 stk1.pop();
                 ans.push_back(ptr1->val);
 
                 ptr1 = ptr1->right;
+                // go till left most node of the right sub tree of the cur node
                 while (ptr1)
                 {
                     stk1.push(ptr1);
@@ -84,7 +87,7 @@ private:
                 stk2.pop();
                 ans.push_back(ptr2->val);
                 ptr2 = ptr2->right;
-                // stk2.push(ptr2);
+                // go till left most node of the right sub tree of the cur node
                 while (ptr2)
                 {
                     stk2.push(ptr2);
@@ -92,6 +95,7 @@ private:
                 };
             }
         }
+        // push the leftover nodes values to ans
         while (!stk1.empty())
         {
             ptr1 = stk1.top();
@@ -99,12 +103,14 @@ private:
             stk1.pop();
             ans.push_back(ptr1->val);
             ptr1 = ptr1->right;
+            // go till left most node of the right sub tree of the cur node
             while (ptr1)
             {
                 stk1.push(ptr1);
                 ptr1 = ptr1->left;
             }
         }
+        // push the leftover nodes values to ans
         while (!stk2.empty())
         {
             ptr2 = stk2.top();
@@ -112,6 +118,7 @@ private:
             stk2.pop();
             ans.push_back(ptr2->val);
             ptr2 = ptr2->right;
+            // go till left most node of the right sub tree of the cur node
             while (ptr2)
             {
                 stk2.push(ptr2);
