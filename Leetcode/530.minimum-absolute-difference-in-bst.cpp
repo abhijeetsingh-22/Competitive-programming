@@ -32,6 +32,8 @@ public:
 class Solution
 {
 private:
+    int minimum = INT_MAX;
+    // TC-> O(n) SC->O(h) log(n)<=h<=n;
     static min_max get_min_dif(TreeNode *root)
     {
         min_max ans;
@@ -70,11 +72,24 @@ private:
 
         return ans;
     }
+    void inorder_rec(TreeNode *root, int &prev)
+    {
+        if (root == NULL)
+            return;
+        inorder_rec(root->left, prev);
+        if (prev >= 0)
+            minimum = min(minimum, abs(root->val - prev));
+        prev = root->val;
+        inorder_rec(root->right, prev);
+    }
 
 public:
     int getMinimumDifference(TreeNode *root)
     {
-        return get_min_dif(root).min_dif;
+        int prev = -1;
+        inorder_rec(root, prev);
+        return minimum;
+        // return get_min_dif(root).min_dif;
     }
 };
 // @lc code=end
