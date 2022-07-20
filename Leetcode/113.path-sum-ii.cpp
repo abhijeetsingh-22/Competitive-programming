@@ -34,7 +34,7 @@ private:
         cur_sum += root->val;
         dfs_path(root->left, targetSum, cur_sum, cur_path, ans);
         dfs_path(root->right, targetSum, cur_sum, cur_path, ans);
-        cur_path.pop_back();
+        cur_path.pop_back(); // backtracking
     }
 
 public:
