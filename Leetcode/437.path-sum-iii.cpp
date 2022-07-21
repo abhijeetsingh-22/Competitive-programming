@@ -51,16 +51,40 @@ private:
         dfs(root->right, target_sum, path, ans, set);
         path.pop_back();
     }
+    static int dfs2(TreeNode *root, long long target_sum, long long cur_sum, unordered_map<long long, int> &map)
+    {
+        if (root == nullptr)
+            return 0;
+        cur_sum += root->val;
+        int count = 0;
+        if (cur_sum == target_sum)
+        {
+            count++;
+        }
+
+        if (map[(cur_sum - target_sum)] > 0)
+        {
+            count += map[cur_sum - target_sum];
+        }
+        map[cur_sum]++;
+        count += dfs2(root->left, target_sum, cur_sum, map) +
+                 dfs2(root->right, target_sum, cur_sum, map);
+        map[cur_sum]--;
+
+        return count;
+    }
 
 public:
     int pathSum(TreeNode *root, int targetSum)
     {
-        int ans = 0;
-        vector<TreeNode *> path;
-        set<pair<TreeNode *, TreeNode *>> set;
+        // int ans = 0;
+        // vector<TreeNode *> path;
+        // set<pair<TreeNode *, TreeNode *>> set;
 
-        dfs(root, targetSum, path, ans, set);
-        return ans;
+        // dfs(root, targetSum, path, ans, set);
+        // return ans;
+        unordered_map<long long, int> map;
+        return dfs2(root, targetSum, 0, map);
     }
 };
 // @lc code=end
