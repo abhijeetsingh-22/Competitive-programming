@@ -40,20 +40,34 @@ class Solution
 
         cur_path.pop_back();
     }
+    static TreeNode *dfs_optimized(TreeNode *root, TreeNode *p, TreeNode *q)
+    {
+        if (root == nullptr)
+            return nullptr;
+        if (root == p or root == q)
+            return root;
+        TreeNode *left = dfs_optimized(root->left, p, q);
+        TreeNode *right = dfs_optimized(root->right, p, q);
+
+        if (left != nullptr and right != nullptr)
+            return root;
+        return left != nullptr ? left : right;
+    }
 
 public:
     TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
     {
-        vector<TreeNode *> cur_path, pathQ, pathP;
-        dfs(root, p, q, cur_path, pathP, pathQ);
-        int i = 0;
-        int len = min(pathQ.size(), pathP.size());
-        while (i < len and pathP[i] == pathQ[i])
-        {
-            i++;
-        }
+        // vector<TreeNode *> cur_path, pathQ, pathP;
+        // dfs(root, p, q, cur_path, pathP, pathQ);
+        // int i = 0;
+        // int len = min(pathQ.size(), pathP.size());
+        // while (i < len and pathP[i] == pathQ[i])
+        // {
+        //     i++;
+        // }
 
-        return pathQ[i - 1];
+        // return pathQ[i - 1];
+        return dfs_optimized(root, p, q);
     }
 };
 // @lc code=end
