@@ -18,7 +18,19 @@
  */
 class Solution
 {
+    TreeNode *prev;
+
 private:
+    void flatten_recursive(TreeNode *root)
+    {
+        if (root == nullptr)
+            return;
+        flatten_recursive(root->right);
+        flatten_recursive(root->left);
+        root->right = prev;
+        root->left = nullptr;
+        prev = root;
+    }
     static void flatten_iter(TreeNode *root)
     {
         if (root == nullptr)
@@ -67,7 +79,9 @@ public:
     void flatten(TreeNode *root)
     {
         // flatten_iter(root);
-        flatten_optimized(root);
+        prev = nullptr;
+        // flatten_optimized(root);
+        flatten_recursive(root);
     }
 };
 // @lc code=end
