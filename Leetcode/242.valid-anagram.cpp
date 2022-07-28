@@ -12,17 +12,14 @@ public:
     {
         vector<int> map(26, 0);
 
-        int size_t = t.size(), size_s = s.size();
-
-        if (size_t != size_s)
+        if (s.size() != t.size())
             return false;
-        for (char c : s)
+
+        int n = s.size();
+        for (int i = 0; i < n; i++)
         {
-            map[c - 'a']++;
-        }
-        for (char c : t)
-        {
-            map[c - 'a']--;
+            map[s[i] - 'a']++;
+            map[t[i] - 'a']--;
         }
         for (int x : map)
         {
