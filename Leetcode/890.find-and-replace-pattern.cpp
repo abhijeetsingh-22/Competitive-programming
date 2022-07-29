@@ -26,8 +26,7 @@ private:
             }
             ans.push_back(cur_val);
         }
-        // for (int x : val)
-        //     cout << x << " ";
+
         return ans;
     }
 
