@@ -73,14 +73,35 @@ class Solution
 public:
     vector<string> removeSubfolders(vector<string> &folder)
     {
-        Trie t;
+        // TC O(N) sc->O(n)
+        //  Trie t;
 
-        for (string &path : folder)
-        {
-            t.insert(path);
-        }
+        // for (string &path : folder)
+        // {
+        //     t.insert(path);
+        // }
+        // t.filter_sub_folders(ans);
         vector<string> ans;
-        t.filter_sub_folders(ans);
+        if (folder.size() == 1)
+            return folder;
+        sort(folder.begin(), folder.end());
+        int parent_idx = 0, cur_idx = 1, n = folder.size();
+        ans.push_back(folder[0]);
+        while (cur_idx < n)
+        {
+            int parent_size = folder[parent_idx].size();
+            int cur_size = folder[cur_idx].size();
+            int i;
+            for (i = 0; i < parent_size and i < cur_size; i++)
+                if (folder[parent_idx][i] != folder[cur_idx][i])
+                    break;
+            if (i != parent_size or (i < cur_size and folder[cur_idx][i] != '/'))
+            {
+                ans.push_back(folder[cur_idx]);
+                parent_idx = cur_idx;
+            }
+            cur_idx++;
+        }
         return ans;
     }
 };
