@@ -8,43 +8,46 @@
 class Solution
 {
 private:
-    static bool is_super_set(string &word, vector<int> map)
+    static bool is_super_set(string &word, int *max_freq)
     {
-        for (char c : word)
+        int *freq = count_freq(word);
+        for (int i = 0; i < 26; i++)
         {
-            map[c - 'a']--;
-        }
-        for (int x : map)
-        {
-            if (x > 0)
+            if (freq[i] < max_freq[i])
                 return false;
         }
         return true;
+    }
+    static int *count_freq(string &word)
+    {
+        int freq[26] = {0};
+        for (char &c : word)
+        {
+            freq[c - 'a']++;
+        }
+        return freq;
     }
 
 public:
     vector<string> wordSubsets(vector<string> &words1, vector<string> &words2)
     {
 
-        vector<int> map(26, 0);
+        int max_freq[26] = {0};
         vector<string> ans;
 
-        for (string s : words2)
+        for (string &s : words2)
         {
-            vector<int> cur_map(26, 0);
-            for (char c : s)
-            {
-                cur_map[c - 'a']++;
-            }
+            int *cur_freq = count_freq(s);
+
             for (int i = 0; i < 26; i++)
             {
-                map[i] = max(map[i], cur_map[i]);
+                max_freq[i] = max(max_freq[i], cur_freq[i]);
             }
         }
 
-        for (string w : words1)
+        for (string &w : words1)
         {
-            if (is_super_set(w, map))
+            if (is_super_set(w, max_freq))
             {
                 ans.push_back(w);
             }
