@@ -18,16 +18,20 @@ public:
         {
             int max_h = 0;
             for (int col = 0; col < n; col++)
-                max_h = max(max_h, grid[row][col]);
-            row_max[row] = max_h;
+            {
+                row_max[row] = max(row_max[row], grid[row][col]);
+                col_max[col] = max(col_max[col], grid[row][col]);
+                // max_h = max(max_h, grid[row][col]);
+            }
+            // row_max[row] = max_h;
         }
-        for (int col = 0; col < n; col++)
-        {
-            int max_h = 0;
-            for (int row = 0; row < n; row++)
-                max_h = max(max_h, grid[row][col]);
-            col_max[col] = max_h;
-        }
+        // for (int col = 0; col < n; col++)
+        // {
+        //     int max_h = 0;
+        //     for (int row = 0; row < n; row++)
+        //         max_h = max(max_h, grid[row][col]);
+        //     col_max[col] = max_h;
+        // }
         int ans = 0;
         for (int row = 0; row < n; row++)
         {
