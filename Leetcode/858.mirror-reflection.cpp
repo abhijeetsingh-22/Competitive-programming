@@ -10,6 +10,7 @@ class Solution
 public:
     int mirrorReflection(int p, int q)
     {
+        // m*p=n*q
         int m = q, n = p;
         while (m % 2 == 0 && n % 2 == 0)
         {
