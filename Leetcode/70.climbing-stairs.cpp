@@ -23,13 +23,18 @@ private:
     }
     static int climbing_stairs_BU(int n)
     {
-        int dp[50];
-        dp[0] = dp[1] = 1;
+        // int dp[50];
+        // dp[0] = dp[1] = 1;
+        int prev = 1, prev_prev = 1, cur = 1;
         for (int i = 2; i <= n; i++)
         {
-            dp[i] = dp[i - 1] + dp[i - 2];
+            cur = prev + prev_prev;
+            prev_prev = prev;
+            prev = cur;
+            // dp[i] = dp[i - 1] + dp[i - 2];
         }
-        return dp[n];
+        // return dp[n];
+        return cur;
     }
 
 public:
