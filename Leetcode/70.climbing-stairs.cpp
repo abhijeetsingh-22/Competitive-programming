@@ -21,14 +21,25 @@ private:
 
         return dp[n] = ans;
     }
+    static int climbing_stairs_BU(int n)
+    {
+        int dp[50];
+        dp[0] = dp[1] = 1;
+        for (int i = 2; i <= n; i++)
+        {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        return dp[n];
+    }
 
 public:
     int climbStairs(int n)
     {
-        int dp[50];
-        memset(dp, -1, sizeof(dp));
+        // int dp[50];
+        // memset(dp, -1, sizeof(dp));
 
-        return climbing_stairs_TD(n, dp);
+        // return climbing_stairs_TD(n, dp);
+        return climbing_stairs_BU(n);
     }
 };
 // @lc code=end
