@@ -47,6 +47,35 @@ class Solution
         }
         return dp[m - 1][n - 1];
     }
+    static int min_path_sopt(vector<vector<int>> &grid)
+    {
+        int m = grid.size();
+        int n = grid[0].size();
+        vector<int> prev(n, 0);
+        // prev[0]=grid[0][0];
+        for (int row = 0; row < m; row++)
+        {
+            vector<int> cur(n, 0);
+            for (int col = 0; col < n; col++)
+            {
+                if (row == 0 and col == 0)
+                    cur[0] = grid[0][0];
+                else
+                {
+
+                    int up = INT_MAX, left = INT_MAX;
+                    if (row > 0)
+                        up = prev[col];
+                    if (col > 0)
+                        left = cur[col - 1];
+
+                    cur[col] = min(left, up) + grid[row][col];
+                }
+            }
+            prev = cur;
+        }
+        return prev[n - 1];
+    }
 
 public:
     int minPathSum(vector<vector<int>> &grid)
@@ -55,7 +84,8 @@ public:
         // int n = grid[0].size();
         // vector<vector<int>> dp(m, vector<int>(n, -1));
         // return min_path(m - 1, n - 1, grid, dp);
-        return min_path_bottomup(grid);
+        // return min_path_bottomup(grid);
+        return min_path_sopt(grid);
     }
 };
 // @lc code=end
