@@ -52,6 +52,32 @@ class Solution
         }
         return dp[m - 1][n - 1];
     }
+    static int ways_sopt(int m, int n, vector<vector<int>> &grid)
+    {
+        vector<int> prev(n, 0);
+        for (int i = 0; i < m; i++)
+        {
+            vector<int> cur(n, 0);
+            for (int j = 0; j < n; j++)
+            {
+                if (grid[i][j] == 1)
+                    cur[j] = 0;
+                else if (i == 0 and j == 0)
+                    cur[j] = 1;
+                else
+                {
+                    int left = 0, up = 0;
+                    if (i > 0)
+                        up = prev[j];
+                    if (j > 0)
+                        left = cur[j - 1];
+                    cur[j] = left + up;
+                }
+            }
+            prev = cur;
+        }
+        return prev[n - 1];
+    }
 
 public:
     int uniquePathsWithObstacles(vector<vector<int>> &obstacleGrid)
@@ -60,7 +86,8 @@ public:
         int n = obstacleGrid[0].size();
         // vector<vector<int>> dp(m, vector<int>(n, -1));
         // return ways_to_reach(m - 1, n - 1, obstacleGrid, dp);
-        return ways_bottomup(m, n, obstacleGrid);
+        // return ways_bottomup(m, n, obstacleGrid);
+        return ways_sopt(m, n, obstacleGrid);
     }
 };
 // @lc code=end
