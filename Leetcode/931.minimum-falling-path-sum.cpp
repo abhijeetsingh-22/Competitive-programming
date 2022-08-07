@@ -21,8 +21,8 @@ private:
 
         for (int i = 0; i < n; i++)
         {
-            if (i == prev_col - 1 or i == prev_col - 2 or i == prev_col or prev_col == 0)
-                ans = min(ans, min_path_sum(idx - 1, i + 1, matrix, dp) + matrix[idx][i]);
+            if (i == prev_col or i == prev_col - 1 or i == prev_col + 1 or prev_col == n)
+                ans = min(ans, min_path_sum(idx - 1, i, matrix, dp) + matrix[idx][i]);
         }
         return dp[idx][prev_col] = ans;
     }
@@ -32,7 +32,7 @@ public:
     {
         int n = matrix[0].size();
         vector<vector<int>> dp(n, vector<int>(n + 1, -1));
-        return min_path_sum(n - 1, 0, matrix, dp);
+        return min_path_sum(n - 1, n, matrix, dp);
     }
 };
 // @lc code=end
