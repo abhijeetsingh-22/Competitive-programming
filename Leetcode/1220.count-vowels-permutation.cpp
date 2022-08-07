@@ -48,14 +48,57 @@ private:
         return dp[n][prev] = ans;
         // return ans;
     }
+    int count_vowel_bottomup(int n)
+    {
+        // vector<vector<long>> dp(n + 1, vector<long>(6, -1));
+        // length, ending char
+        long dp[n + 1][5];
+        dp[1][0] = dp[1][1] = dp[1][2] = dp[1][3] = dp[1][4] = 1;
+        for (int i = 2; i <= n; i++)
+        {
+            dp[i][0] = (dp[i - 1][1] + dp[i - 1][4] + dp[i - 1][2]) % mod;
+            dp[i][1] = (dp[i - 1][0] + dp[i - 1][2]) % mod;
+            dp[i][2] = (dp[i - 1][1] + dp[i - 1][3]) % mod;
+            dp[i][3] = (dp[i - 1][2]) % mod;
+            dp[i][4] = (dp[i - 1][3] + dp[i - 1][2]) % mod;
+        }
+        long ans = 0;
+        for (int i = 0; i < 5; i++)
+        {
+            ans = (ans + dp[n][i]) % mod;
+        }
+        return ans;
+    }
+    int count_vowel_sopt(int n)
+    {
+        long prev_a, prev_e, prev_i, prev_o, prev_u;
+        prev_a = prev_e = prev_i = prev_o = prev_u = 1;
+        for (int i = 2; i <= n; i++)
+        {
+            int cur_a = (prev_e + prev_i + prev_u) % mod;
+            int cur_e = (prev_a + prev_i) % mod;
+            int cur_i = (prev_e + prev_o) % mod;
+            int cur_o = prev_i;
+            int cur_u = (prev_o + prev_i) % mod;
+
+            prev_a = cur_a;
+            prev_e = cur_e;
+            prev_i = cur_i;
+            prev_o = cur_o;
+            prev_u = cur_u;
+        }
+        return (prev_a + prev_e + prev_i + prev_o + prev_u) % mod;
+    }
 
 public:
     int countVowelPermutation(int n)
     {
 
-        vector<vector<long>> dp(n + 1, vector<long>(6, -1));
+        // vector<vector<long>> dp(n + 1, vector<long>(6, -1));
 
-        return count_vovel_per(n, dp);
+        // return count_vovel_per(n, dp);
+        // return count_vowel_bottomup(n);
+        return count_vowel_sopt(n);
     }
 };
 // @lc code=end
