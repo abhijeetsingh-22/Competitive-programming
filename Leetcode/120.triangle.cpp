@@ -42,6 +42,28 @@ class Solution
         }
         return dp[0][0];
     }
+    static int min_path_sopt(vector<vector<int>> &triangle)
+    {
+        int n = triangle.size();
+        vector<int> prev(n, -1);
+        for (int row = n - 1; row >= 0; row--)
+        {
+            vector<int> cur(n, 0);
+            for (int col = 0; col <= row; col++)
+            {
+                if (row == n - 1)
+                    cur[col] = triangle[row][col];
+                else
+                {
+                    int down = prev[col];
+                    int right = prev[col + 1];
+                    cur[col] = min(down, right) + triangle[row][col];
+                }
+            }
+            prev = cur;
+        }
+        return prev[0];
+    }
 
 public:
     int minimumTotal(vector<vector<int>> &triangle)
@@ -49,7 +71,8 @@ public:
         // int n = triangle.size();
         // vector<vector<int>> dp(n, vector<int>(n + 1, -1));
         // return min_path(0, 0, triangle, dp);
-        return min_path_bottomup(triangle);
+        // return min_path_bottomup(triangle);
+        return min_path_sopt(triangle);
     }
 };
 // @lc code=end
