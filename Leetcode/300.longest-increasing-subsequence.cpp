@@ -25,16 +25,34 @@ class Solution
 
         return dp[idx][prev_idx + 1] = max(take, not_take);
     }
-    // static int lis_bottomup(vector<int> &nums)
+    static int lis_bottomup(vector<int> &nums)
+    {
+        int n = nums.size();
+        vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
+
+        for (int idx = n - 1; idx >= 0; idx--)
+        {
+            for (int prev_idx = idx - 1; prev_idx >= -1; prev_idx--)
+            {
+                int not_take = dp[idx + 1][prev_idx + 1];
+                int take = INT_MIN;
+                if (prev_idx == -1 or nums[idx] > nums[prev_idx])
+                    take = dp[idx + 1][idx + 1] + 1;
+                dp[idx][prev_idx + 1] = max(take, not_take);
+            }
+        }
+        return dp[0][0];
+    }
 
 public:
     int lengthOfLIS(vector<int> &nums)
     {
 
-        int n = nums.size();
-        vector<vector<int>> dp(n, vector<int>(n + 1, -1));
+        // int n = nums.size();
+        // vector<vector<int>> dp(n, vector<int>(n + 1, -1));
 
-        return lis_length(0, -1, nums, n, dp);
+        // return lis_length(0, -1, nums, n, dp);
+        return lis_bottomup(nums);
     }
 };
 // @lc code=end
