@@ -43,6 +43,28 @@ class Solution
         }
         return dp[0][0];
     }
+    static int lis_sopt(vector<int> &nums)
+    {
+        int n = nums.size();
+        vector<int> prev(n + 1, 0);
+
+        for (int idx = n - 1; idx >= 0; idx--)
+        {
+            vector<int> cur(n + 1, 0);
+            for (int prev_idx = idx - 1; prev_idx >= -1; prev_idx--)
+            {
+                int not_take = prev[prev_idx + 1];
+                int take = INT_MIN;
+                if (prev_idx == -1 or nums[idx] > nums[prev_idx])
+                {
+                    take = prev[idx + 1] + 1;
+                }
+                cur[prev_idx + 1] = max(take, not_take);
+            }
+            prev = cur;
+        }
+        return prev[0];
+    }
 
 public:
     int lengthOfLIS(vector<int> &nums)
@@ -52,7 +74,8 @@ public:
         // vector<vector<int>> dp(n, vector<int>(n + 1, -1));
 
         // return lis_length(0, -1, nums, n, dp);
-        return lis_bottomup(nums);
+        // return lis_bottomup(nums);
+        return lis_sopt(nums);
     }
 };
 // @lc code=end
