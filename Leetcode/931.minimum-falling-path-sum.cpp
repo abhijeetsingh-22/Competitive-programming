@@ -71,6 +71,36 @@ private:
         }
         return ans;
     }
+    static int min_path_sum_sopt(vector<vector<int>> &matrix)
+    {
+        int n = matrix.size();
+        vector<int> prev(n, 0);
+        for (int col = 0; col < n; col++)
+            prev[col] = matrix[0][col];
+
+        for (int row = 1; row < n; row++)
+        {
+            vector<int> cur(n, 0);
+            for (int col = 0; col < n; col++)
+            {
+                int up = prev[col];
+                int left_d = INT_MAX;
+                int right_d = INT_MAX;
+                if (col > 0)
+                    left_d = prev[col - 1];
+                if (col < n - 1)
+                    right_d = prev[col + 1];
+                cur[col] = min(up, min(left_d, right_d)) + matrix[row][col];
+            }
+            prev = cur;
+        }
+        int ans = INT_MAX;
+        for (int col = 0; col < n; col++)
+        {
+            ans = min(ans, prev[col]);
+        }
+        return ans;
+    }
 
 public:
     int minFallingPathSum(vector<vector<int>> &matrix)
@@ -83,7 +113,8 @@ public:
         //     ans = min(ans, min_path_sum(n - 1, i, matrix, dp));
         // }
         // return ans;
-        return min_path_sum_bottomup(matrix);
+        // return min_path_sum_bottomup(matrix);
+        return min_path_sum_sopt(matrix);
     }
 };
 // @lc code=end
