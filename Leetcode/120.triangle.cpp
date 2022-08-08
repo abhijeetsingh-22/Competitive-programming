@@ -18,13 +18,38 @@ class Solution
 
         return dp[row][col] = min(down, right) + triangle[row][col];
     }
+    static int min_path_bottomup(vector<vector<int>> &triangle)
+    {
+        int n = triangle.size();
+        vector<vector<int>> dp(n, vector<int>(n + 1, 0));
+        for (int row = n - 1; row >= 0; row--)
+        {
+            for (int col = row; col >= 0; col--)
+            {
+
+                if (row == n - 1)
+                {
+                    dp[row][col] = triangle[row][col];
+                }
+                else
+                {
+
+                    int down = dp[row + 1][col];
+                    int right = dp[row + 1][col + 1];
+                    dp[row][col] = min(down, right) + triangle[row][col];
+                }
+            }
+        }
+        return dp[0][0];
+    }
 
 public:
     int minimumTotal(vector<vector<int>> &triangle)
     {
-        int n = triangle.size();
-        vector<vector<int>> dp(n, vector<int>(n + 1, -1));
-        return min_path(0, 0, triangle, dp);
+        // int n = triangle.size();
+        // vector<vector<int>> dp(n, vector<int>(n + 1, -1));
+        // return min_path(0, 0, triangle, dp);
+        return min_path_bottomup(triangle);
     }
 };
 // @lc code=end
