@@ -41,18 +41,49 @@ private:
 
         return dp[row][col] = min(up, min(left_d, right_d)) + matrix[row][col];
     }
+    static int min_path_sum_bottomup(vector<vector<int>> &matrix)
+    {
+        int n = matrix.size();
+        vector<vector<int>> dp(n, vector<int>(n, 0));
+        for (int col = 0; col < n; col++)
+            dp[0][col] = matrix[0][col];
+
+        for (int row = 1; row < n; row++)
+        {
+            for (int col = 0; col < n; col++)
+            {
+                int up = dp[row - 1][col];
+                int left_d = INT_MAX;
+                int right_d = INT_MAX;
+
+                if (col > 0)
+                    left_d = dp[row - 1][col - 1];
+                if (col < n - 1)
+                    right_d = dp[row - 1][col + 1];
+
+                dp[row][col] = min(up, min(left_d, right_d)) + matrix[row][col];
+            }
+        }
+        int ans = INT_MAX;
+        for (int col = 0; col < n; col++)
+        {
+            ans = min(ans, dp[n - 1][col]);
+        }
+        return ans;
+    }
 
 public:
     int minFallingPathSum(vector<vector<int>> &matrix)
     {
-        int n = matrix[0].size();
-        vector<vector<int>> dp(n, vector<int>(n + 1, -1));
-        int ans = INT_MAX;
-        for (int i = 0; i < n; i++)
-        {
-            ans = min(ans, min_path_sum(n - 1, i, matrix, dp));
-        }
-        return ans;
+        // int n = matrix[0].size();
+        // vector<vector<int>> dp(n, vector<int>(n + 1, -1));
+        // int ans = INT_MAX;
+        // for (int i = 0; i < n; i++)
+        // {
+        //     ans = min(ans, min_path_sum(n - 1, i, matrix, dp));
+        // }
+        // return ans;
+        return min_path_sum_bottomup(matrix);
     }
 };
 // @lc code=end
