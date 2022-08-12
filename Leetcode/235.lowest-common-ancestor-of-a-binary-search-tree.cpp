@@ -32,11 +32,26 @@ class Solution
         return left ? left : right;
     }
 
+    TreeNode *lca_opt(TreeNode *root, TreeNode *p, TreeNode *q)
+    {
+        if (root == nullptr)
+            return nullptr;
+        if (root->val >= p->val and root->val <= q->val)
+            return root;
+        if (root->val > q->val)
+            return lca_opt(root->left, p, q);
+        return lca_opt(root->right, p, q);
+    }
+
 public:
     TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
     {
 
-        return lca(root, p, q);
+        // return lca(root, p, q);
+        if (p->val <= q->val)
+            return lca_opt(root, p, q);
+
+        return lca_opt(root, q, p);
     }
 };
 // @lc code=end
