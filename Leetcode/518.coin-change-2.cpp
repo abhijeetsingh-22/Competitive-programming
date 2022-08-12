@@ -72,6 +72,30 @@ class Solution
         }
         return prev[amount];
     }
+    int count_ways_sopt1(vector<int> &coins, int amount)
+    {
+        int n = coins.size();
+        vector<int> row(amount + 1, 0);
+
+        for (int target = 0; target <= amount; target++)
+        {
+            if (target == 0 or target % coins[0] == 0)
+                row[target] = 1;
+        }
+        for (int idx = 1; idx < n; idx++)
+        {
+            for (int target = 0; target <= amount; target++)
+            {
+                int not_take = row[target];
+                int take = 0;
+                if (target >= coins[idx])
+                    take = row[target - coins[idx]];
+                row[target] = take + not_take;
+            }
+            // prev = cur;
+        }
+        return row[amount];
+    }
 
 public:
     int change(int amount, vector<int> &coins)
