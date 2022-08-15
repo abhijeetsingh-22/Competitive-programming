@@ -27,12 +27,11 @@ class Solution
         int lcs_len = dp[n1][n2];
         string ans;
         // ans.reserve(n1 + n2 - lcs_len);
-        int idx1 = n1, idx2 = n2, i = n1 + n2 - lcs_len;
+        int idx1 = n1, idx2 = n2;
         while (idx1 >= 1 and idx2 >= 1)
         {
             if (str1[idx1 - 1] == str2[idx2 - 1])
             {
-                // ans[i] = str1[idx1];
                 ans.push_back(str1[idx1 - 1]);
                 idx1--;
                 idx2--;
@@ -41,13 +40,11 @@ class Solution
             {
                 if (dp[idx1 - 1][idx2] >= dp[idx1][idx2 - 1])
                 {
-                    // ans[i] = str1[idx1];
                     ans.push_back(str1[idx1 - 1]);
                     idx1--;
                 }
                 else
                 {
-                    // ans[i] = str2[idx2];
                     ans.push_back(str2[idx2 - 1]);
                     idx2--;
                 }
