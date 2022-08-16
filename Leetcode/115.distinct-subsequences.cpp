@@ -47,19 +47,17 @@ class Solution
     {
         int n1 = s1.size();
         int n2 = s2.size();
-        vector<double> prev(n2 + 1, 0), cur(n2 + 1, 0);
+        vector<double> prev(n2 + 1, 0);
         prev[0] = 1;
-        cur[0] = 1;
         for (int idx1 = 1; idx1 <= n1; idx1++)
         {
-            for (int idx2 = 1; idx2 <= n2; idx2++)
+            for (int idx2 = n2; idx2 >= 1; idx2--)
             {
                 if (s1[idx1 - 1] == s2[idx2 - 1])
-                    cur[idx2] = prev[idx2 - 1] + prev[idx2];
-                else
-                    cur[idx2] = prev[idx2];
+                    prev[idx2] = prev[idx2 - 1] + prev[idx2];
+                // else
+                //     prev[idx2] = prev[idx2];
             }
-            prev = cur;
         }
         return (int)prev[n2];
     }
