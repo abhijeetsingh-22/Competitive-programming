@@ -51,6 +51,29 @@ class Solution
         }
         return dp[0][1];
     }
+    int max_profit_sopt(vector<int> &prices)
+    {
+        int n = prices.size();
+        vector<int> cur(3, 0), next(3, 0);
+
+        for (int idx = n - 1; idx >= 0; idx--)
+        {
+            for (int can_buy = 0; can_buy <= 2; can_buy++)
+            {
+                int take = INT_MIN;
+                int not_take = INT_MIN;
+                if (can_buy == 0)
+                    cur[can_buy] = next[1];
+
+                if (can_buy == 1)
+                    cur[can_buy] = max(-1 * prices[idx] + next[2], next[can_buy]);
+                if (can_buy == 2)
+                    cur[can_buy] = max(prices[idx] + next[0], next[can_buy]);
+            }
+            next = cur;
+        }
+        return next[1];
+    }
 
 public:
     int maxProfit(vector<int> &prices)
@@ -58,7 +81,8 @@ public:
         // int n = prices.size();
         // vector<vector<int>> dp(n, vector<int>(3, -1));
         // return max_profit(0, 1, n, prices, dp);
-        return max_profit_bottom_up(prices);
+        // return max_profit_bottom_up(prices);
+        return max_profit_sopt(prices);
     }
 };
 // @lc code=end
