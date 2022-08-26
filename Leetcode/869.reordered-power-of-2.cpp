@@ -7,7 +7,7 @@
 // @lc code=start
 class Solution
 {
-    bool can_reorder(int cur, int rem_len, int *freq)
+    bool can_reorder(int cur, int rem_len, vector<int> freq)
     {
         if (rem_len == 0)
         {
@@ -27,12 +27,10 @@ class Solution
         }
         return false;
     }
-
-public:
-    bool reorderedPowerOf2(int n)
+    vector<int> get_freq(int n)
     {
-        int freq[10] = {0};
         int num = n, len = 0;
+        vector<int> freq(10, 0);
         while (num)
         {
             len++;
@@ -40,8 +38,28 @@ public:
             freq[rem]++;
             num = num / 10;
         }
+        return freq;
+    }
 
-        return can_reorder(0, len, freq);
+    bool can_reorder_opt(int n)
+    {
+        vector<int> freq_in_n = get_freq(n);
+
+        for (int i = 0; i <= 29; i++)
+        {
+            if (freq_in_n == get_freq(1 << i))
+                return true;
+        }
+        return false;
+    }
+
+public:
+    bool reorderedPowerOf2(int n)
+    {
+        // vector<int> freq = get_freq(n);
+
+        // return can_reorder(0, len, freq);
+        return can_reorder_opt(n);
     }
 };
 // @lc code=end
