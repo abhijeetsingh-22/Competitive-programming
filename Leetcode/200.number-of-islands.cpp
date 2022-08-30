@@ -35,7 +35,6 @@ class Solution
                     count++;
                     visit_dfs(row, col, m, n, grid);
                 }
-                // visited[row][col] = 1;
             }
         }
         return count;
