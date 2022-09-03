@@ -47,6 +47,24 @@ class Solution
     {
         return s1.size() < s2.size();
     }
+    int longest_strc_opt(vector<string> &words)
+    {
+        int n = words.size();
+        vector<int> dp(n, 1);
+        int maxi = 1;
+        for (int idx = 0; idx < n; idx++)
+        {
+            for (int prev_idx = 0; prev_idx < idx; prev_idx++)
+            {
+                if (can_take(words[idx], words[prev_idx]) and dp[idx] < 1 + dp[prev_idx])
+                {
+                    dp[idx] = 1 + dp[prev_idx];
+                }
+            }
+            maxi = max(maxi, dp[idx]);
+        }
+        return maxi;
+    }
 
 public:
     int longestStrChain(vector<string> &words)
@@ -54,8 +72,9 @@ public:
         int n = words.size();
         sort(words.begin(), words.end(), compare);
 
-        vector<vector<int>> dp(n + 1, vector<int>(n + 1, -1));
-        return longest_string_chain(0, -1, n, words, dp);
+        // vector<vector<int>> dp(n + 1, vector<int>(n + 1, -1));
+        // return longest_string_chain(0, -1, n, words, dp);
+        return longest_strc_opt(words);
     }
 };
 // @lc code=end
