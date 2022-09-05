@@ -5,6 +5,8 @@
  */
 
  // @lc code=start
+#include<bits/stdc++.h>
+using namespace std;
 class Solution {
     int max_bitonic(vector<int>& nums) {
         int n = nums.size();
@@ -26,7 +28,6 @@ class Solution {
         }
         int maxi = 0;
 
-        cout << endl;
         for (int i = 0;i < n;i++) {
             if (dp1[i] >= 2 and dp2[i] >= 2) {
                 maxi = max(maxi, dp1[i] + dp2[i] - 1);
