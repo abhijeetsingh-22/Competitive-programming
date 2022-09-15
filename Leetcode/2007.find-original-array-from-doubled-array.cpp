@@ -14,6 +14,8 @@ class Solution {
         unordered_map<int, int> map;
         vector<int> ans;
         sort(changed.begin(), changed.end());
+        // if num/2 is present then this is larger num else
+        // consider it as smaller number
         for (int num : changed) {
             if (!(num & 1) and map[num / 2] > 0) {
                 map[num / 2]--;
