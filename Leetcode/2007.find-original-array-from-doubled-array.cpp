@@ -18,17 +18,20 @@ class Solution {
             if (!(num & 1) and map[num / 2] > 0) {
                 map[num / 2]--;
                 ans.push_back(num / 2);
-            } else if (map[2 * num] > 0) {
-                map[2 * num]--;
-                ans.push_back(num);
-            } else
+            }
+            // else if (map[2 * num] > 0) {
+            //     map[2 * num]--;
+            //     ans.push_back(num);
+            // }
+            else
                 map[num]++;
         }
-        for (pair<int, int> p : map) {
-            if (p.second != 0)
-                return {};
-        }
-
+        // for (pair<int, int> p : map) {
+        //     if (p.second != 0)
+        //         return {};
+        // }
+        if (ans.size() * 2 != n)
+            return {};
         return ans;
     }
 };
